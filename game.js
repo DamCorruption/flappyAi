@@ -283,8 +283,8 @@ gelu
 */
 const structure = [
   [input_layer_length, "prelu"],
-  [32, "gelu"],
-  [32, "gelu"],
+  [4, "gelu"],
+  [4, "gelu"],
   [output_layer_length, "TANH"]
 ];
 let imported = false;
