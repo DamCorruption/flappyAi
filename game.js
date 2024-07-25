@@ -284,8 +284,6 @@ gelu
 const structure = [
   [input_layer_length, "relu"],
   [16, "relu"],
-  [16, "relu"],
-  [16, "relu"],
   [output_layer_length, "TANH"]
 ];
 let imported = false;
