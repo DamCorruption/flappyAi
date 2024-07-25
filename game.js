@@ -273,7 +273,7 @@ drawLoop();
 const input_layer_length = 8;
 const output_layer_length = 2;
 let Initmutationdetails = [1, 1, 2, 2];
-let mutationdetails = [0.05, 0.05, 0.1, 0.05];
+let mutationdetails = [0.2, 0.05, 0.2, 0.05];
 let generation = 1;
 let populationSize = 500;
 /*
@@ -283,8 +283,7 @@ gelu
 */
 const structure = [
   [input_layer_length, "prelu"],
-  [4, "gelu"],
-  [4, "gelu"],
+  [4, "prelu"],
   [output_layer_length, "TANH"]
 ];
 let imported = false;
@@ -568,10 +567,6 @@ function updateScore() {
     for (const pipe of pipes) {
       if (bird.x > pipe.x + pipe.width && b === 0) {
         b++
-        if (bird.score > 98) {
-          mutationdetails = [0.1, 0.1, 0.0000000000000005];
-          mutast = [0.1, 0.1, 0.0000000000000005];
-        }
         let newSpeed = speed + 0.01;
         speed = Math.min(newSpeed, 10)
         bird.fitness += 100
@@ -791,10 +786,6 @@ function doo() {
 let mint = 10;
 async function gameLoop() {
   await doo();
-  await doo();
-  await doo();
-  await doo();
-
   requestAnimationFrame(gameLoop);
 }
 setInterval(function() {
