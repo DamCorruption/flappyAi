@@ -316,7 +316,7 @@ function start() {
     const newAI = new AI(structure);
     const IE = new AI(structure, importe);
     if (!wImp || ((wImp) && i != 0)) {
-      newAI.MUTATE(...Initmutationdetails);
+      newAI.mutate(...Initmutationdetails);
     }
     let lb = false;
     let bot = newAI;
@@ -434,8 +434,8 @@ function evolveNextGeneration() {
     const parents = selectParents(birds);
     if (!parents || parents == []) return console.log("no parents : " + parents);
     if (!parents.length || parents.length == 0) return console.log("no parents : " + parents);
-    const childAI = parents[0].ai.COPY().CROSSOVER(parents[1].ai).MUTATE(...mutast);
-    let b = sort[0].ai.MUTATE(...mutationdetails);
+    const childAI = parents[0].ai.copy().crossover(parents[1].ai).mutate(...mutast);
+    let b = sort[0].ai.mutate(...mutationdetails);
     if (score[0].score >= highestScore) {
       bestai = score[0].ai;
     }
@@ -463,7 +463,7 @@ function evolveNextGeneration() {
   }
 }
 function getAIAction(bird, inputs) {
-  const outputs = bird.ai.PREDICT(inputs);
+  const outputs = bird.ai.predict(inputs);
   bird.act = outputs;
   return [outputs[0] > outputs[1], [outputs]]; // Return true if jump output is higher
 }
