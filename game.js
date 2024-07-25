@@ -449,7 +449,7 @@ function evolveNextGeneration() {
       newBirdAI = parentA.ai.copy().crossover(parentB.ai).mutate(...mutationdetails);
     }else{
       const parentA = parents[Math.floor(Math.random() * parents.length)];
-      newBirdAI = parentA.ai.copy()
+      newBirdAI = parentA.ai.copy().randomize()
     }
 
     // Create a new bird with the new AI
