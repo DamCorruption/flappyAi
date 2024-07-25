@@ -273,7 +273,7 @@ drawLoop();
 const input_layer_length = 8;
 const output_layer_length = 2;
 let Initmutationdetails = [1, 1, 2, 2];
-let mutationdetails = [0.1, 0.1, 0.5, 0.25];
+let mutationdetails = [0.05, 0.05, 0.1, 0.05];
 let generation = 1;
 let populationSize = 500;
 /*
@@ -438,7 +438,7 @@ function evolveNextGeneration() {
     if (i === 0) {
       // The best bird from the current generation is passed unchanged to the next generation
       newBirdAI = sortedByFitness[0].ai.copy();
-    } else if (i >= populationSize * 0.5) {
+    } else if (i >= populationSize * 0.75) {
       // The next 50% of the population are mutations of the best bird
       newBirdAI = sortedByFitness[0].ai.copy().mutate(...mutationdetails);
     } else {
