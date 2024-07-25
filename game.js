@@ -432,22 +432,26 @@ function evolveNextGeneration() {
     console.log("No parents selected.");
     return;
   }
-
+let mew = [0,0,0,0];
   for (let i = 0; i < populationSize; i++) {
     let newBirdAI;
 
     if (i === 0) {
+      mew[0]+=1
       // The best bird from the current generation is passed unchanged to the next generation
       newBirdAI = sortedByFitness[0].ai.copy();
     } else if (i >= populationSize * 0.9) {
+      mew[1]+=1
       // The next 10% of the population are mutations of the best bird
       newBirdAI = sortedByFitness[0].ai.copy().mutate(...mutationdetails);
     } else if(i >= populationSize * 0.7){
+      mew[2]+=1
       // The rest are offspring of two randomly selected parents
       const parentA = parents[Math.floor(Math.random() * parents.length)];
       const parentB = parents[Math.floor(Math.random() * parents.length)];
       newBirdAI = parentA.ai.copy().crossover(parentB.ai).mutate(...mutationdetails);
     }else{
+      mew[3]+=1
       const parentA = parents[Math.floor(Math.random() * parents.length)];
       newBirdAI = parentA.ai.copy().randomize()
     }
@@ -471,7 +475,7 @@ function evolveNextGeneration() {
       act: 0
     });
   }
-
+console.log(mew)
   // Update the best AI if a new highest score has been achieved
   if (sortedByScore[0].score >= highestScore) {
     highestScore = sortedByScore[0].score;
