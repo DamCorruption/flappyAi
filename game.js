@@ -452,8 +452,7 @@ let mew = [0,0,0,0];
       newBirdAI = parentA.ai.copy().crossover(parentB.ai).mutate(...mutationdetails);
     }else{
       mew[3]+=1
-      const parentA = parents[Math.floor(Math.random() * parents.length)];
-      newBirdAI = parentA.ai.copy().randomize()
+      newBirdAI = new AI(structure)
     }
 
     // Create a new bird with the new AI
