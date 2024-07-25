@@ -398,49 +398,59 @@ function restarttt() {
     color: randomColor
   });
 }
+let mutast = [0.1, 0.1, 0.5];
+let bestai = "e";
 function selectParents(population) {
-  // Sort the population based on fitness in descending order
   population.sort((a, b) => b.fitness - a.fitness);
-  // Select parents using a tournament selection approach
-  let numParents = Math.floor(population.length * 0.1); // Select top 40% as parents
-  if (numParents < 1) numParents = 1;
+  const numParents = Math.max(Math.floor(population.length * 0.1), 1); // Select top 10% as parents
   const parents = [];
 
   for (let i = 0; i < numParents; i++) {
-    const tournamentSize = Math.min(5, population.length); // Tournament size of 5 or less
+    const tournamentSize = Math.min(5, population.length);
     const competitors = [];
 
-    // Randomly select competitors for the tournament
     for (let j = 0; j < tournamentSize; j++) {
       const randomIndex = Math.floor(Math.random() * population.length);
       competitors.push(population[randomIndex]);
     }
-    // Select the competitor with the highest fitness as parent
-    const parent = competitors.reduce((prev, current) =>
-      current.fitness > prev.fitness ? current : prev
-    );
+
+    const parent = competitors.reduce((prev, current) => current.fitness > prev.fitness ? current : prev);
     parents.push(parent);
   }
 
   return parents;
 }
-let mutast = [0.1, 0.1, 0.5];
-let bestai = "e";
+
 function evolveNextGeneration() {
-  let newBirds = [];
+  const newBirds = [];
+  const sortedByFitness = birds.sort((a, b) => b.fitness - a.fitness);
+  const sortedByScore = birds.sort((a, b) => b.score - a.score);
+  const parents = selectParents(birds);
+
+  if (!parents || parents.length === 0) {
+    console.log("No parents selected.");
+    return;
+  }
+
   for (let i = 0; i < populationSize; i++) {
-    let score = birds.sort((a, b) => b.score - a.score);
-    let sort = birds.sort((a, b) => b.fitness - a.fitness);
-    const parents = selectParents(birds);
-    if (!parents || parents == []) return console.log("no parents : " + parents);
-    if (!parents.length || parents.length == 0) return console.log("no parents : " + parents);
-    const childAI = parents[0].ai.copy().crossover(parents[1].ai).mutate(...mutast);
-    let b = sort[0].ai.mutate(...mutationdetails);
-    if (score[0].score >= highestScore) {
-      bestai = score[0].ai;
+    let newBirdAI;
+
+    if (i === 0) {
+      // The best bird from the current generation is passed unchanged to the next generation
+      newBirdAI = sortedByFitness[0].ai.copy();
+    } else if (i >= populationSize * 0.9) {
+      // The next 10% of the population are mutations of the best bird
+      newBirdAI = sortedByFitness[0].ai.copy().mutate(...mutationDetails);
+    } else {
+      // The rest are offspring of two randomly selected parents
+      const parentA = parents[Math.floor(Math.random() * parents.length)];
+      const parentB = parents[Math.floor(Math.random() * parents.length)];
+      newBirdAI = parentA.ai.copy().crossover(parentB.ai).mutate(...mutationDetails);
     }
+
+    // Create a new bird with the new AI
     newBirds.push({
-      ai: i == 0 ? sort[0].ai : i > populationSize * 0.9 ? b : childAI,
+      ai: newBirdAI,
       dead: false,
       x: 50,
       y: canvas.height / 2,
@@ -453,15 +463,22 @@ function evolveNextGeneration() {
       fitness: 0,
       history: [],
       history2: [],
-      lastBest: i == 0 ? true : false,
+      lastBest: i === 0,
       act: 0
-    }); // Modify fitness as needed
+    });
   }
-  if (newBirds) {
-    birds = newBirds;
-    generation++;
+
+  // Update the best AI if a new highest score has been achieved
+  if (sortedByScore[0].score >= highestScore) {
+    highestScore = sortedByScore[0].score;
+    bestAI = sortedByScore[0].ai.copy();
   }
+
+  // Replace the old generation with the new one
+  birds = newBirds;
+  generation++;
 }
+
 function getAIAction(bird, inputs) {
   const outputs = bird.ai.predict(inputs);
   bird.act = outputs;
