@@ -439,14 +439,17 @@ function evolveNextGeneration() {
     if (i === 0) {
       // The best bird from the current generation is passed unchanged to the next generation
       newBirdAI = sortedByFitness[0].ai.copy();
-    } else if (i >= populationSize * 0.5) {
-      // The next 50% of the population are mutations of the best bird
+    } else if (i >= populationSize * 0.9) {
+      // The next 10% of the population are mutations of the best bird
       newBirdAI = sortedByFitness[0].ai.copy().mutate(...mutationdetails);
-    } else {
+    } else if(i >= populationSize * 0.7){
       // The rest are offspring of two randomly selected parents
       const parentA = parents[Math.floor(Math.random() * parents.length)];
       const parentB = parents[Math.floor(Math.random() * parents.length)];
       newBirdAI = parentA.ai.copy().crossover(parentB.ai).mutate(...mutationdetails);
+    }else{
+      const parentA = parents[Math.floor(Math.random() * parents.length)];
+      newBirdAI = parentA.ai.copy()
     }
 
     // Create a new bird with the new AI
