@@ -272,8 +272,8 @@ function drawLoop() {
 drawLoop();
 const input_layer_length = 8;
 const output_layer_length = 2;
-let Initmutationdetails = [1, 1, 2];
-let mutationdetails = [0.1, 0.1, 0.5];
+let Initmutationdetails = [1, 1, 2, 2];
+let mutationdetails = [0.1, 0.1, 0.5, 0.25];
 let generation = 1;
 let populationSize = 500;
 /*
