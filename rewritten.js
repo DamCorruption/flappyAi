@@ -104,8 +104,8 @@ class AI {
     for (const layer of this.layers.slice(1)) {
       for (const node of layer) {
         for (let i = 0; i < node.weights.length; i++) {
-          node.weights[i] = random.uniform(-1, 1);
-          node.bias = random.uniform(-1, 1);
+          node.weights[i] = random.uniform(-10, 10);
+          node.bias = random.uniform(-10, 10);
         }
       }
     }
