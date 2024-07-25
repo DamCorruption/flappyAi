@@ -749,7 +749,7 @@ function doo() {
     let parents = birds.sort((a, b) => b.score - a.score);
     sssss = parents[0].score;
     if (seconds === -1 && autoTraining) {
-      let data = [];
+     /* let data = [];
       birds.forEach(bird => {
         if (bird.score > 2) data.push(...bird.history2)
       });
@@ -757,7 +757,7 @@ function doo() {
       if (parents[0].score > 50 && false===true) {
         let dataset = parents[0].history.slice(0, -500);
         parents[0].ai.down(dataset);
-      }
+      }*/
       seconds = 5
     }
     // Game Over screen
